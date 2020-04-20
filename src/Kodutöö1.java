@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Palk {
+public class Kodutöö1 {
     static void ringjoon() {
         Scanner reader = new Scanner(System.in);
         System.out.print("Raadiuse mõõt: ");
