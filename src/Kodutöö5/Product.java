@@ -25,16 +25,6 @@ public class Product {
                 ", vendor=" + ((vendor != null) ? vendor.getName() : "not assigned");
     }
 
-    public String toString(String add_fee) {
-        return "Product{" +
-                "index=" + index +
-                ", name='" + name + '\'' +
-                ", quantity=" + quantity +
-                ", price=" + price +
-                ", inventory value=" + inventoryValue()*1.05 +
-                ", vendor=" + ((vendor != null) ? vendor.getName() : "not assigned");
-    }
-
     public double inventoryValue(){
         return quantity*price;
     }
@@ -53,6 +43,10 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public void setQuantityAdd(int quantity) {
+        this.quantity += quantity;
     }
 
     public void setPrice(float price) {

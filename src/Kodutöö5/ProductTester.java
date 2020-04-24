@@ -7,38 +7,53 @@ import java.util.Scanner;
 public class ProductTester {
 
     private static Scanner in = new Scanner(System.in);
-    private static Hashtable<String, Product> products = new Hashtable<String, Product>();
+    private static Hashtable<String, Product> products = new Hashtable<>();
+    private static Hashtable<String, ProductTable> productsTable = new Hashtable<>();
 
-    private static void addToProducts(Product product, int quantity){
+    private static void addToProducts(Product product){
         if (products.containsKey(product.getName())){
-            product.setQuantity(product.getQuantity() + quantity);
+            products.get(product.getName()).setQuantityAdd(product.getQuantity());
+        }else{
             products.put(product.getName(), product);
-        }else {
-            addToProducts(product);
         }
     }
 
-    private static void addToProducts(Product product){
-        products.put(product.getName(), product);
+    private static void addToProductsTable(ProductTable productTable){
+        if (productsTable.containsKey(productTable.getName())){
+            productsTable.get(productTable.getName()).setQuantityAdd(productTable.getQuantity());
+        }else{
+            productsTable.put(productTable.getName(), productTable);
+        }
     }
 
-    private static Product createNewProduct(){
+    private static void createNewProduct(){
         System.out.println("Add product ( y / n )?");
         if (in.nextLine().equals("y")){
+            System.out.println("Add product(table) ( y / n )?");
+            String wantTable = in.nextLine();
+
             int index = 69; // ei kasuta toote numbreid(indekseid), indekseerimine toimub toote nime järgi
             String name;
             int quantity;
             double price;
+            int legs;
+
             System.out.println("Product name(String): ");
             name = in.nextLine();
             System.out.println("Product quantity(int): ");
             quantity = in.nextInt();
             System.out.println("Product price(double): ");
             price = in.nextDouble();
-            return new Product(index, name, quantity, price);
+
+            if (wantTable.equals("y")){
+                System.out.println("Product(table) number of legs(int): ");
+                legs = in.nextInt();
+                addToProductsTable(new ProductTable(index, name, quantity, price, legs));
+            }else{
+            addToProducts(new Product(index, name, quantity, price));
+            }
         }else{
             System.out.println("OK!");
-            return null;
         }
     }
 
@@ -46,8 +61,6 @@ public class ProductTester {
         System.out.println("Want to add a vendor to product ( y / n )?");
         if (in.nextLine().equals("y")){
             Vendor vendor = new Vendor();
-            System.out.println("Enter products name to add a vendor: ");
-            Product product = products.get(in.nextLine());
             System.out.println("Enter vendor's name: ");
             vendor.setName(in.nextLine());
             System.out.println("Enter vendor's address: ");
@@ -55,8 +68,15 @@ public class ProductTester {
             System.out.println("Enter vendor's contact: ");
             vendor.setContact(in.nextLine());
             System.out.println("Enter vendor's number: ");
-            vendor.setPhoneNum(in.nextInt());
-            product.setVendor(vendor);
+            vendor.setPhoneNum(Integer.parseInt(in.nextLine()));
+
+            System.out.println("Enter products name to add a vendor to: ");
+            String productName = in.nextLine();
+            if (productsTable.containsKey(productName)){
+                productsTable.get(productName).setVendor(vendor);
+            }else{
+                products.get(productName).setVendor(vendor);
+            }
         }else{
             System.out.println("OKEI!");
         }
@@ -71,6 +91,8 @@ public class ProductTester {
         Product kapsas = new Product(5, "Kapsas", 5, 6.20);
         Product peet = new Product(6, "Peet", 347, 0.20);
 
+        ProductTable peet_table = new ProductTable(6, "PeetLaud", 347, 0.20, 5);
+
         addToProducts(kartul);
         addToProducts(oun);
         addToProducts(sibul);
@@ -78,26 +100,24 @@ public class ProductTester {
         addToProducts(kapsas);
         addToProducts(peet);
 
-        String fee = "n";
-        Product toAdd;
+        addToProductsTable(peet_table);
+
+
         while (true){
-            toAdd = createNewProduct();
-            if (toAdd != null) {
-                addToProducts(toAdd);
-            }
+            createNewProduct();
             addVendor();
-            System.out.println("Want value with fee ( y / n )?");
+            System.out.println("Want values printed( y / n )?");
             if (in.nextLine().equals("y")) {
-                for (String key : products.keySet()) {
-                    //ProductFee output = new ProductFee(products.get(key).getIndex(), products.get(key).getName(), products.get(key).getQuantity(), products.get(key).getPrice());
-                    System.out.println(products.get(key).toString("yes"));
-                }
-            }else{
+                System.out.println("Normal products: ");
                 for (String key : products.keySet()) {
                     System.out.println(products.get(key).toString());
                 }
-            }
 
+                System.out.println("Tables: ");
+                for (String key : productsTable.keySet()) {
+                    System.out.println(productsTable.get(key).toString());
+                }
+            }
         }
     }
 }
