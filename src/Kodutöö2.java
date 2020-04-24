@@ -5,7 +5,7 @@ class Kodutöö2 {
 
     private static int moneySpent = 0;
     private static Scanner in = new Scanner(System.in);
-    private static int theNumber = new Random().nextInt((1000000) + 1) + 0;
+    private static int theNumber = new Random().nextInt((100000) + 1);
 
     private static void setup() {
         System.out.println("Want to win a million dollars?\n" +
