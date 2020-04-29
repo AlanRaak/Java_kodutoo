@@ -1,6 +1,5 @@
 package Kodutöö5;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Scanner;
 
@@ -41,13 +40,13 @@ public class ProductTester {
             System.out.println("Product name(String): ");
             name = in.nextLine();
             System.out.println("Product quantity(int): ");
-            quantity = in.nextInt();
+            quantity = Integer.parseInt(in.nextLine());
             System.out.println("Product price(double): ");
-            price = in.nextDouble();
+            price = Double.parseDouble(in.nextLine());
 
             if (wantTable.equals("y")){
                 System.out.println("Product(table) number of legs(int): ");
-                legs = in.nextInt();
+                legs = Integer.parseInt(in.nextLine());
                 addToProductsTable(new ProductTable(index, name, quantity, price, legs));
             }else{
             addToProducts(new Product(index, name, quantity, price));
@@ -61,16 +60,16 @@ public class ProductTester {
         System.out.println("Want to add a vendor to product ( y / n )?");
         if (in.nextLine().equals("y")){
             Vendor vendor = new Vendor();
-            System.out.println("Enter vendor's name: ");
+            System.out.println("Enter vendor's name(String): ");
             vendor.setName(in.nextLine());
-            System.out.println("Enter vendor's address: ");
+            System.out.println("Enter vendor's address(String): ");
             vendor.setAddress(in.nextLine());
-            System.out.println("Enter vendor's contact: ");
+            System.out.println("Enter vendor's contact(String): ");
             vendor.setContact(in.nextLine());
-            System.out.println("Enter vendor's number: ");
+            System.out.println("Enter vendor's number(int): ");
             vendor.setPhoneNum(Integer.parseInt(in.nextLine()));
 
-            System.out.println("Enter products name to add a vendor to: ");
+            System.out.println("Enter products name to add a vendor to(String): ");
             String productName = in.nextLine();
             if (productsTable.containsKey(productName)){
                 productsTable.get(productName).setVendor(vendor);
